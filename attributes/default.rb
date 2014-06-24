@@ -119,7 +119,13 @@ default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
                                          --with-mysql-sock
                                          --with-sqlite3
                                          --with-pdo-mysql
-                                         --with-pdo-sqlite}
-
+                                         --with-pdo-sqlite
+                                       }
+if node['apache']['location']
+  default['php']['configure_options']<<"--with-apxs2=#{node['apache']['location']}/bin/apxs"
+end
+if node['php']['extra_option']
+  default['php']['configure_options']+=node['php']['extra_option']；
+end
 default['php']['ini']['template'] = "php.ini.erb"
 default['php']['ini']['cookbook'] = "php"
